@@ -6,6 +6,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.resource('blog', function() {
+
+    });
 });
 
 export default Router;
