@@ -4,7 +4,8 @@
 {{#each model as |post|}}
     <div>
         <div>{{post.title}}</div>
-        <div>{{post.body}}</div>
+        <div>{{post.timestamp}}</div>
+        <div>{{post.postBody.content}}</div>
     </div>
     {{/each}}
 </section>

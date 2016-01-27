@@ -1,15 +1,11 @@
 <nav class="purple lighten-1" role="navigation">
-  <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-    <ul class="right hide-on-med-and-down">
-      <li><a href="#">Navbar Link</a></li>
-    </ul>
-
-    <ul id="nav-mobile" class="side-nav">
-      <li><a href="#">Navbar Link</a></li>
-    </ul>
-    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-  </div>
+    <div class="nav-wrapper container">{{#link-to "index" id="logo-container" class="brand-logo"}}Gonnatakeyouthere{{/link-to}}
+        <ul class="right">
+            <li>{{#link-to 'admin'}}Admin{{/link-to}}</li>
+        </ul>
+    </div>
 </nav>
+{{!--
 <div class="section no-pad-bot" id="index-banner">
   <div class="container">
     <br><br>
@@ -24,9 +20,10 @@
 
   </div>
 </div>
-
+--}}
 
 <div class="container">
+{{!--
   <div class="section">
 
     <!--   Icon Section   -->
@@ -61,7 +58,7 @@
 
   </div>
   <br><br>
-
+--}}
   <div class="section">
       {{outlet}}
   </div>
@@ -71,6 +68,7 @@
 {{md-modal-container}}
 
 <footer class="page-footer purple lighten-1">
+{{!--
   <div class="container">
     <div class="row">
       <div class="col l6 s12">
@@ -99,9 +97,8 @@
       </div>
     </div>
   </div>
+  --}}
   <div class="footer-copyright">
-    <div class="container">
-    Made by <a class="purple-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-    </div>
+    {{md-copyright text='Cristina Marantette' startYear=2014}}
   </div>
 </footer>
