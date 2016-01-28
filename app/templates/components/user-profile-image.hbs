@@ -1,0 +1,7 @@
+<img class="z-depth-1" data-activates="user-profile-dropdown" src="{{user.profileImageURL}}">
+<ul id="user-profile-dropdown" class="dropdown-content">
+    <li><span>{{user.displayName}}</span></li>
+    <li>{{#link-to 'admin'}}Admin{{/link-to}}</li>
+    <li class="divider"></li>
+    <li><a {{action "signOut"}}>Sign out</a></li>
+  </ul>
