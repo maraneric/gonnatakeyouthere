@@ -6,6 +6,9 @@ module.exports = function(environment) {
     environment: environment,
     contentSecurityPolicy: { 'connect-src': "'self' https://auth.firebase.com wss://*.firebaseio.com" },
     firebase: 'https://gonnatakeyouthere.firebaseio.com/',
+    torii: {
+      sessionServiceName: 'session'
+    },
     baseURL: '/',
     locationType: 'auto',
     EmberENV: {
@@ -14,6 +17,7 @@ module.exports = function(environment) {
         // e.g. 'with-controller': true
       }
     },
+    'ember-devtools': {global: 'devTools', enabled: environment !== 'production'},
 
     APP: {
       // Here you can pass flags/options to your application instance
