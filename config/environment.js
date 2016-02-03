@@ -4,7 +4,13 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'gonnatakeyouthere',
     environment: environment,
-    contentSecurityPolicy: { 'connect-src': "'self' https://auth.firebase.com wss://*.firebaseio.com" },
+    contentSecurityPolicy: {
+      'connect-src': "'self' wss://*.firebaseio.com",
+      'frame-src': "'self' https://*.firebaseio.com",
+      'script-src': "'self' 'unsafe-eval' https://*.firebaseio.com",
+      'img-src': "*",
+      'style-src': "'unsafe-inline'",
+    },
     firebase: 'https://gonnatakeyouthere.firebaseio.com/',
     torii: {
       sessionServiceName: 'session'

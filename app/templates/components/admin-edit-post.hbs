@@ -5,7 +5,7 @@
     {{md-input-date label="Date" value=post.timestamp class="col s12"}}
 </div>
 <div class="row">
-    {{md-textarea label="Content" value=body.content class="col s12"}}
+    {{rich-text-editor value=body.content class="col s12"}}
 </div>
 {{md-check name="Publish the post?" checked=post.isPublished}}
 <div class="row right-align">
