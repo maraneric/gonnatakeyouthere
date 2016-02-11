@@ -1,14 +1,8 @@
-<div class="row">
-    {{md-input value=post.title label="Title" class="col s12" errors=errors.name}}
-</div>
-<div class="row">
-    {{md-input-date label="Date" value=post.timestamp class="col s12"}}
-</div>
-<div class="row">
-    {{rich-text-editor value=body.content class="col s12"}}
-</div>
+{{md-input value=post.title label="Title" class="col s12" errors=errors.name}}
+{{md-input-date label="Date" value=post.timestamp class="col s12"}}
+{{rich-text-editor value=body.content class="col s12" shouldSaveValue=shouldSaveRichTextValue saveValue="didSaveValue"}}
 {{md-check name="Publish the post?" checked=post.isPublished}}
-<div class="row right-align">
+<div class="right-align">
     {{#unless isNew}}
         {{md-btn text="Delete"action="delete" class="red"}}
     {{/unless}}

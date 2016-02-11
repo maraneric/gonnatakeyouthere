@@ -10,6 +10,15 @@ export default Ember.Component.extend({
 
         firepad.on('ready', () => {
             firepad.setHtml(this.get('value'));
-      });
+        });
+        this.set('firepad', firepad);
+    }),
+    _setValue: Ember.observer('shouldSaveValue', function() {
+        if (this.get('shouldSaveValue')) {
+            this.set('shouldSaveValue', false);
+            let value = this.get('firepad').getHtml();
+            this.set('value', value);
+            this.sendAction('saveValue', value);
+        }
     })
 });

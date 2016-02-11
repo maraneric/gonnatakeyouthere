@@ -8,8 +8,9 @@ module.exports = function(environment) {
       'connect-src': "'self' wss://*.firebaseio.com",
       'frame-src': "'self' https://*.firebaseio.com",
       'script-src': "'self' 'unsafe-eval' https://*.firebaseio.com",
-      'img-src': "*",
-      'style-src': "'unsafe-inline'",
+      'img-src': "* data: blob",
+      'style-src': "* 'unsafe-inline'",
+      'font-src': "'self' data: blob"
     },
     firebase: 'https://gonnatakeyouthere.firebaseio.com/',
     torii: {

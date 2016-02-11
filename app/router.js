@@ -7,7 +7,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
     this.resource('blog', function() {
-
+        this.route('post', { path: '/:codedTitle' });
     });
 
     this.resource('admin', function() {

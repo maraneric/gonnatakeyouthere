@@ -1,11 +1,7 @@
-<!-- app/templates/posts.hbs -->
-
 <section>
-{{#each model as |post|}}
-    <div>
-        <div>{{post.title}}</div>
-        <div>{{post.timestamp}}</div>
-        <div>{{post.postBody.content}}</div>
-    </div>
+    {{#each model as |post|}}
+        <div>
+            {{#link-to "blog.post" post}}{{post.title}} - {{post.timestamp}}{{/link-to}}
+        </div>
     {{/each}}
 </section>

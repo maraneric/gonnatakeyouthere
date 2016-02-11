@@ -1,4 +1,20 @@
-{{outlet}}
+<nav class="teal" role="navigation">
+    <div class="nav-wrapper container">{{#link-to "index" id="logo-container" class="brand-logo"}}A House Called Panic{{/link-to}}
+        <ul class="right">
+            {{#if session.currentUser}}
+                {{user-profile-image user=session.currentUser signOut="signOut"}}
+            {{else}}
+                <li>{{#link-to "login"}}Sign in{{/link-to}}</li>
+            {{/if}}
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="section">
+        {{outlet}}
+    </div>
+</div>
 
 {{!-- ember-cli-materialize modal container --}}
 {{md-modal-container}}

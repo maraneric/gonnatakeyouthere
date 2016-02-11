@@ -1,12 +1,1 @@
-{{#if session.currentUser}}
-    <div class="container">
-        <div class="section right">
-            {{user-profile-image user=session.currentUser signOut="signOut"}}
-        </div>
-    </div>
-{{/if}}
-<div class="container">
-  <div class="section">
-      {{outlet}}
-  </div>
-</div>
+{{outlet}}
