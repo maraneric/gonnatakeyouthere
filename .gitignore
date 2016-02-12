@@ -2,6 +2,7 @@
 
 # compiled output
 /tmp
+/dist
 
 # dependencies
 /node_modules
@@ -16,5 +17,5 @@ npm-debug.log
 testem.log
 
 # app code
-/dist/testem.js
-/dist/tests
+/testem.js
+/tests
