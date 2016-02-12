@@ -3086,7 +3086,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("gonnatakeyouthere/app")["default"].create({"name":"gonnatakeyouthere","version":"0.0.0+1d314249"});
+  require("gonnatakeyouthere/app")["default"].create({"name":"gonnatakeyouthere","version":"0.0.0+5a082bdf"});
 }
 
 /* jshint ignore:end */
