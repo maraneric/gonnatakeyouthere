@@ -2,6 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function() {
-        return this.store.findAll('post-summary');
+        return this.store.findAll('post-summary').then(array => array.sortBy('timestamp'));
     },
 });

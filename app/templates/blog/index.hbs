@@ -1,7 +1,20 @@
 <section>
-    {{#each model as |post|}}
-        <div>
-            {{#link-to "blog.post" post}}{{post.title}} - {{post.timestamp}}{{/link-to}}
-        </div>
-    {{/each}}
+    <div class="row">
+        {{#each model as |post|}}
+            <div class="col s12 m6 l4">
+                {{#md-card title=post.title
+                    titleClass="deep-purple-text text-accent-2"
+                    image=post.image}}
+
+                    {{#md-card-content}}
+                        {{post.timestamp}}
+                    {{/md-card-content}}
+
+                    {{#md-card-action}}
+                        {{#link-to "blog.post" post}}View post{{/link-to}}
+                    {{/md-card-action}}
+                {{/md-card}}
+            </div>
+        {{/each}}
+    </div>
 </section>

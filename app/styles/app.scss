@@ -2,6 +2,8 @@
 @import 'ember-cli-materialize';
 
 .user-profile-image {
+    position: absolute;
+    right: 0;
     img {
         height: 55px;
         width: 55px;
@@ -38,4 +40,12 @@ h4 {
             font-size: 1.5rem;
         }
     }
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    color: #7C4DFF;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
+    color: #B388FF;
 }
