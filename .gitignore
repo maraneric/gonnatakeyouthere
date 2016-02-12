@@ -1,7 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
 /tmp
 
 # dependencies
@@ -15,3 +14,7 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+
+# app code
+/dist/testem.js
+/dist/tests
