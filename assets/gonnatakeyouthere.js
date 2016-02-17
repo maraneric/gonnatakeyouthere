@@ -47,8 +47,9 @@ define('gonnatakeyouthere/components/admin-edit-post', ['exports', 'ember'], fun
 define('gonnatakeyouthere/components/admin-nav-tabs', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Component.extend({
         classNames: ['row'],
-        _initTabs: _ember['default'].on('didInsertElement', function () {
-            this.$('.tabs').tabs();
+        tabs: [{ id: 'admin.posts', title: 'Posts' }, { id: 'admin.attachments', title: 'Attachments' }],
+        _activeTabObserver: _ember['default'].observer('selectedTab', function () {
+            this.sendAction('navigate', this.get('selectedTab'));
         })
     });
 });
@@ -1133,6 +1134,14 @@ define('gonnatakeyouthere/router', ['exports', 'ember', 'gonnatakeyouthere/confi
 
     exports['default'] = Router;
 });
+define('gonnatakeyouthere/routes/admin/attachments/index', ['exports', 'gonnatakeyouthere/routes/admin/base'], function (exports, _gonnatakeyouthereRoutesAdminBase) {
+    exports['default'] = _gonnatakeyouthereRoutesAdminBase['default'].extend({
+        setupController: function setupController(controller, model) {
+            this._super(controller, model);
+            this.controllerFor('admin').set('selectedTab', 'admin.attachments');
+        }
+    });
+});
 define('gonnatakeyouthere/routes/admin/base', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Route.extend({
         beforeModel: function beforeModel(transition) {
@@ -1209,6 +1218,10 @@ define('gonnatakeyouthere/routes/admin/posts/index', ['exports', 'gonnatakeyouth
     exports['default'] = _gonnatakeyouthereRoutesAdminBase['default'].extend({
         model: function model() {
             return this.store.findAll('post-summary');
+        },
+        setupController: function setupController(controller, model) {
+            this._super(controller, model);
+            this.controllerFor('admin').set('selectedTab', 'admin.posts');
         }
     });
 });
@@ -1245,7 +1258,13 @@ define('gonnatakeyouthere/routes/admin/posts/new', ['exports', 'gonnatakeyouther
     });
 });
 define('gonnatakeyouthere/routes/admin', ['exports', 'gonnatakeyouthere/routes/admin/base'], function (exports, _gonnatakeyouthereRoutesAdminBase) {
-  exports['default'] = _gonnatakeyouthereRoutesAdminBase['default'].extend({});
+    exports['default'] = _gonnatakeyouthereRoutesAdminBase['default'].extend({
+        actions: {
+            navigate: function navigate(toRoute) {
+                this.transitionTo(toRoute);
+            }
+        }
+    });
 });
 define('gonnatakeyouthere/routes/application', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Route.extend({
@@ -1269,7 +1288,7 @@ define('gonnatakeyouthere/routes/blog/index', ['exports', 'ember'], function (ex
     exports['default'] = _ember['default'].Route.extend({
         model: function model() {
             return this.store.findAll('post-summary').then(function (array) {
-                return array.sortBy('timestamp');
+                return array.filterBy('isPublished').sortBy('timestamp');
             });
         }
     });
@@ -1780,7 +1799,7 @@ define("gonnatakeyouthere/templates/admin", ["exports"], function (exports) {
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["content", "admin-nav-tabs", ["loc", [null, [1, 0], [1, 18]]]], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]]]],
+      statements: [["inline", "admin-nav-tabs", [], ["selectedTab", ["subexpr", "@mut", [["get", "selectedTab", ["loc", [null, [1, 29], [1, 40]]]]], [], []], "navigate", "navigate"], ["loc", [null, [1, 0], [1, 62]]]], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]]]],
       locals: [],
       templates: []
     };
@@ -2394,11 +2413,11 @@ define("gonnatakeyouthere/templates/components/admin-edit-post", ["exports"], fu
           "loc": {
             "source": null,
             "start": {
-              "line": 6,
+              "line": 7,
               "column": 4
             },
             "end": {
-              "line": 8,
+              "line": 9,
               "column": 4
             }
           },
@@ -2422,7 +2441,7 @@ define("gonnatakeyouthere/templates/components/admin-edit-post", ["exports"], fu
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "md-btn", [], ["text", "Delete", "action", "delete", "class", "red"], ["loc", [null, [7, 8], [7, 59]]]]],
+        statements: [["inline", "md-btn", [], ["text", "Delete", "action", "delete", "class", "red"], ["loc", [null, [8, 8], [8, 59]]]]],
         locals: [],
         templates: []
       };
@@ -2437,7 +2456,7 @@ define("gonnatakeyouthere/templates/components/admin-edit-post", ["exports"], fu
             "column": 0
           },
           "end": {
-            "line": 12,
+            "line": 13,
             "column": 0
           }
         },
@@ -2448,6 +2467,10 @@ define("gonnatakeyouthere/templates/components/admin-edit-post", ["exports"], fu
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -2486,19 +2509,20 @@ define("gonnatakeyouthere/templates/components/admin-edit-post", ["exports"], fu
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [8]);
-        var morphs = new Array(7);
+        var element0 = dom.childAt(fragment, [10]);
+        var morphs = new Array(8);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
         morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         morphs[2] = dom.createMorphAt(fragment, 4, 4, contextualElement);
         morphs[3] = dom.createMorphAt(fragment, 6, 6, contextualElement);
-        morphs[4] = dom.createMorphAt(element0, 1, 1);
-        morphs[5] = dom.createMorphAt(element0, 3, 3);
-        morphs[6] = dom.createMorphAt(element0, 5, 5);
+        morphs[4] = dom.createMorphAt(fragment, 8, 8, contextualElement);
+        morphs[5] = dom.createMorphAt(element0, 1, 1);
+        morphs[6] = dom.createMorphAt(element0, 3, 3);
+        morphs[7] = dom.createMorphAt(element0, 5, 5);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "md-input", [], ["value", ["subexpr", "@mut", [["get", "post.title", ["loc", [null, [1, 17], [1, 27]]]]], [], []], "label", "Title", "class", "col s12", "errors", ["subexpr", "@mut", [["get", "errors.name", ["loc", [null, [1, 65], [1, 76]]]]], [], []]], ["loc", [null, [1, 0], [1, 78]]]], ["inline", "md-input-date", [], ["label", "Date", "value", ["subexpr", "@mut", [["get", "post.timestamp", ["loc", [null, [2, 35], [2, 49]]]]], [], []], "class", "col s12"], ["loc", [null, [2, 0], [2, 67]]]], ["inline", "rich-text-editor", [], ["value", ["subexpr", "@mut", [["get", "body.content", ["loc", [null, [3, 25], [3, 37]]]]], [], []], "class", "col s12", "shouldSaveValue", ["subexpr", "@mut", [["get", "shouldSaveRichTextValue", ["loc", [null, [3, 70], [3, 93]]]]], [], []], "saveValue", "didSaveValue"], ["loc", [null, [3, 0], [3, 120]]]], ["inline", "md-check", [], ["name", "Publish the post?", "checked", ["subexpr", "@mut", [["get", "post.isPublished", ["loc", [null, [4, 44], [4, 60]]]]], [], []]], ["loc", [null, [4, 0], [4, 62]]]], ["block", "unless", [["get", "isNew", ["loc", [null, [6, 14], [6, 19]]]]], [], 0, null, ["loc", [null, [6, 4], [8, 15]]]], ["inline", "md-btn", [], ["text", "Cancel", "action", "cancel", "class", "grey darken-4"], ["loc", [null, [9, 4], [9, 65]]]], ["inline", "md-btn", [], ["text", "Save", "action", "save", "class", "deep-purple accent-2"], ["loc", [null, [10, 4], [10, 68]]]]],
+      statements: [["inline", "md-input", [], ["value", ["subexpr", "@mut", [["get", "post.title", ["loc", [null, [1, 17], [1, 27]]]]], [], []], "label", "Title", "class", "col s12", "errors", ["subexpr", "@mut", [["get", "errors.title", ["loc", [null, [1, 65], [1, 77]]]]], [], []]], ["loc", [null, [1, 0], [1, 79]]]], ["inline", "md-input-date", [], ["label", "Date", "value", ["subexpr", "@mut", [["get", "post.timestamp", ["loc", [null, [2, 35], [2, 49]]]]], [], []], "class", "col s12"], ["loc", [null, [2, 0], [2, 67]]]], ["inline", "md-input", [], ["value", ["subexpr", "@mut", [["get", "post.image", ["loc", [null, [3, 17], [3, 27]]]]], [], []], "label", "Title image", "class", "col s12", "errors", ["subexpr", "@mut", [["get", "errors.image", ["loc", [null, [3, 71], [3, 83]]]]], [], []]], ["loc", [null, [3, 0], [3, 85]]]], ["inline", "rich-text-editor", [], ["value", ["subexpr", "@mut", [["get", "body.content", ["loc", [null, [4, 25], [4, 37]]]]], [], []], "class", "col s12", "shouldSaveValue", ["subexpr", "@mut", [["get", "shouldSaveRichTextValue", ["loc", [null, [4, 70], [4, 93]]]]], [], []], "saveValue", "didSaveValue"], ["loc", [null, [4, 0], [4, 120]]]], ["inline", "md-check", [], ["name", "Publish the post?", "checked", ["subexpr", "@mut", [["get", "post.isPublished", ["loc", [null, [5, 44], [5, 60]]]]], [], []]], ["loc", [null, [5, 0], [5, 62]]]], ["block", "unless", [["get", "isNew", ["loc", [null, [7, 14], [7, 19]]]]], [], 0, null, ["loc", [null, [7, 4], [9, 15]]]], ["inline", "md-btn", [], ["text", "Cancel", "action", "cancel", "class", "grey darken-4"], ["loc", [null, [10, 4], [10, 65]]]], ["inline", "md-btn", [], ["text", "Save", "action", "save", "class", "deep-purple accent-2"], ["loc", [null, [11, 4], [11, 68]]]]],
       locals: [],
       templates: [child0]
     };
@@ -2506,74 +2530,6 @@ define("gonnatakeyouthere/templates/components/admin-edit-post", ["exports"], fu
 });
 define("gonnatakeyouthere/templates/components/admin-nav-tabs", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@1.13.11",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 3,
-              "column": 31
-            },
-            "end": {
-              "line": 3,
-              "column": 62
-            }
-          },
-          "moduleName": "gonnatakeyouthere/templates/components/admin-nav-tabs.hbs"
-        },
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Posts");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@1.13.11",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 4,
-              "column": 31
-            },
-            "end": {
-              "line": 4,
-              "column": 74
-            }
-          },
-          "moduleName": "gonnatakeyouthere/templates/components/admin-nav-tabs.hbs"
-        },
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Attachments");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@1.13.11",
@@ -2584,7 +2540,7 @@ define("gonnatakeyouthere/templates/components/admin-nav-tabs", ["exports"], fun
             "column": 0
           },
           "end": {
-            "line": 7,
+            "line": 2,
             "column": 0
           }
         },
@@ -2595,46 +2551,21 @@ define("gonnatakeyouthere/templates/components/admin-nav-tabs", ["exports"], fun
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "col s12");
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("ul");
-        dom.setAttribute(el2, "class", "tabs z-depth-1");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("li");
-        dom.setAttribute(el3, "class", "tab col s3");
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("li");
-        dom.setAttribute(el3, "class", "tab col s3");
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0, 1]);
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["block", "link-to", ["admin.posts"], [], 0, null, ["loc", [null, [3, 31], [3, 74]]]], ["block", "link-to", ["admin.attachments"], [], 1, null, ["loc", [null, [4, 31], [4, 86]]]]],
+      statements: [["inline", "md-tabs", [], ["content", ["subexpr", "@mut", [["get", "tabs", ["loc", [null, [1, 18], [1, 22]]]]], [], []], "selected", ["subexpr", "@mut", [["get", "selectedTab", ["loc", [null, [1, 32], [1, 43]]]]], [], []], "class", "z-depth-1"], ["loc", [null, [1, 0], [1, 63]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: []
     };
   })());
 });
@@ -3086,7 +3017,7 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("gonnatakeyouthere/app")["default"].create({"name":"gonnatakeyouthere","version":"0.0.0+5a082bdf"});
+  require("gonnatakeyouthere/app")["default"].create({"name":"gonnatakeyouthere","version":"0.0.0+b1214c75"});
 }
 
 /* jshint ignore:end */

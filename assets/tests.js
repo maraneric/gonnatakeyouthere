@@ -222,6 +222,15 @@ define('gonnatakeyouthere/tests/router.jshint', ['exports'], function (exports) 
     assert.ok(true, 'router.js should pass jshint.');
   });
 });
+define('gonnatakeyouthere/tests/routes/admin/attachments/index.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/admin/attachments');
+  QUnit.test('routes/admin/attachments/index.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/admin/attachments/index.js should pass jshint.');
+  });
+});
 define('gonnatakeyouthere/tests/routes/admin/base.jshint', ['exports'], function (exports) {
   'use strict';
 

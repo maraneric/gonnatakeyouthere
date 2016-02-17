@@ -8554,7 +8554,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     cursor: pointer; }
 
 .firepad {
-  min-height: 300px; }
+  min-height: 300px;
+  border: solid 1px #78909c;
+  margin-bottom: 15px; }
   .firepad .powered-by-firepad {
     display: none; }
 
