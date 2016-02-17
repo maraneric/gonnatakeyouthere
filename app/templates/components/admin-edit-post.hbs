@@ -1,5 +1,6 @@
-{{md-input value=post.title label="Title" class="col s12" errors=errors.name}}
+{{md-input value=post.title label="Title" class="col s12" errors=errors.title}}
 {{md-input-date label="Date" value=post.timestamp class="col s12"}}
+{{md-input value=post.image label="Title image" class="col s12" errors=errors.image}}
 {{rich-text-editor value=body.content class="col s12" shouldSaveValue=shouldSaveRichTextValue saveValue="didSaveValue"}}
 {{md-check name="Publish the post?" checked=post.isPublished}}
 <div class="right-align">
